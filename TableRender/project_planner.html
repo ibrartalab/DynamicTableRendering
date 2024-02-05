@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto"
+    /> -->
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .textbox-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+
+      .textbox {
+        flex: 1;
+        padding: 10px;
+        margin-right: 10px;
+        resize: vertical;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+      }
+
+      .textbox:focus {
+        border-color: #06597f;
+      }
+
+      .button {
+        background-color: #06597f;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 10px;
+        margin-left: 10px;
+        transition: transform 0.2s, color 0.2s, background-color 0.2s;
+      }
+
+      .button:hover {
+        transform: scale(1.05);
+        background-color: #d0d3d4;
+        color: #06597f;
+      }
+
+      .progressBox {
+        position: fixed;
+        top: 30%;
+        left: 40%;
+        transform: translate(-50%, -50%);
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 6px solid transparent;
+        border-top: 6px solid #254766;
+        /* Color of the progress bar */
+        animation: zoomIn 1s ease-in-out infinite alternate,
+          spin 1s linear infinite;
+        /* Zoom-in and rotation animations */
+        z-index: 1000;
+        /* Ensure it's above other elements */
+        display: none;
+        /* Initially visible to cover the content */
+      }
+
+      #toast {
+        width: 150px;
+        height: 30px;
+        background-color: #eeeded;
+        color: #254766;
+        border-radius: 10px;
+        position: absolute;
+        text-align: center;
+        padding-top: 10px;
+        font-weight: 700;
+        top: -10%;
+        left: 40%;
+        animation: toaster ease 3s;
+      }
+      .hidden {
+        display: none;
+      }
+      @keyframes toaster {
+        0% {
+          top: 0;
+        }
+        50% {
+          top: 10%;
+        }
+        100% {
+          top: -10%;
+        }
+      }
+
+      @keyframes zoomIn {
+        0% {
+          transform: scale(1);
+        }
+
+        100% {
+          transform: scale(1.2);
+        }
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      table {
+        width: fit-content;
+        /* border-collapse:collapse; */
+        margin-top: 20px;
+        /* border-radius: 10px; */
+      }
+
+      th,
+      td {
+        /* border: 1px solid #b8b8b8; */
+        padding: 6px;
+        text-align: left;
+        width: fit-content;
+        margin: auto;
+      }
+
+      th {
+        background-color: #035c7e;
+        color: white;
+      }
+      th:first-child {
+        border-top-left-radius: 10px;
+      }
+      th:last-child {
+        border-top-right-radius: 10px;
+      }
+      tbody tr:last-of-type > td:first-child {
+        border-bottom-left-radius: 10px;
+      }
+      tbody tr td:nth-child(2) {
+        width: fit-content;
+        /* background-color: #06597f; */
+      }
+      tbody tr:last-of-type > td:last-child {
+        border-bottom-right-radius: 10px;
+      }
+      tr:hover {
+        background-color: #ddd;
+      }
+      td {
+        background-color: #ebebeb60;
+        font-size: 15px;
+      }
+      tr:nth-child(even) {
+        background-color: #ecf4f6;
+      }
+
+      th:first-child {
+        width: 50px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Loader Spinner -->
+    <div class="progressBox"></div>
+    <!-- Toast -->
+    <div id="toast" class="hidden">Please enter text</div>
+
+    <!-- Main Body -->
+    <div class="container">
+      <div class="textbox-container">
+        <textarea
+          class="textbox"
+          rows="5"
+          placeholder="Enter your text here..."
+        ></textarea>
+        <button class="button">Submit</button>
+      </div>
+
+      <table class="table" style="display: block; width: 100px">
+        <thead>
+          <!-- <tr>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Project</th>
+            <th>Supervisor</th>
+          </tr> -->
+        </thead>
+        <tbody>
+          <!-- <tr>
+            <td>1</td>
+            <td>ImtiazImtiazImtiazImtiazImtiazImtiazImtiazImtiazImtiazImtiazImtiazImtiazImtiaz</td>
+            <td>NFCO</td>
+            <td>Sarmad</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Younas</td>
+            <td>ABCD</td>
+            <td>Umer</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Younas</td>
+            <td>ABCD</td>
+            <td>Umer</td>
+          </tr> -->
+        </tbody>
+      </table>
+    </div>
+  </body>
+
+  <script>
+    //------------Data-----------------------
+    let CCTV = [
+      {
+        CUL: "Civil44",
+        Description:
+          "Site survey, design and drawings such as (civil, system, electrical, copper etc.) ",
+        UOM: "Each",
+        Qty: 2,
+        Price: 2800,
+        Total: 5600,
+        DaysforCompletion: 3,
+      },
+      {
+        CUL: "Civil63",
+        Description:
+          "SPECIAL TRENCH, 450  600mm DEPTH, STANDARD WIDTH 150  200mm",
+        UOM: "Meter",
+        Qty: 75.2,
+        Price: 75,
+        Total: 5640,
+        DaysforCompletion: 2,
+      },
+      {
+        CUL: "Civil2",
+        Description:
+          "longitudinal meter excavation work (Micro trench) is pavement width 30-40sm and depth of 60-80 cm and include item cut and remove the tiles, drilling, supply and installation of UPVC class 4, 2 pipes diameter of 75 mm and thickness of 3.6 mm and supplying concrete pour 300 SRC thickness of 25 cm at least above the pipes.  supply of aggregates and sand and water. The compaction and supply warning tape, supply and installation of the tiles and remove debris.",
+        UOM: "Meter",
+        Qty: 10.7,
+        Price: 240,
+        Total: 2568,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "Civil8",
+        Description:
+          "Milling and pavement work 5-7cm thickness with supply and individual asphalt MC1-RC2 display (100cm-Above) and the restoration of the situation as it was.",
+        UOM: "Meter",
+        Qty: 75.2,
+        Price: 48,
+        Total: 3609.6000000000004,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "Civil31",
+        Description:
+          "Longitudinal meter supply and installation of UPVC class 4\nplastic pipes (75 mm) thickness of 3.6 mm. ",
+        UOM: "Meter",
+        Qty: 225.60000000000002,
+        Price: 21,
+        Total: 4737.6,
+        DaysforCompletion: 2,
+      },
+      {
+        CUL: "Civil121",
+        Description: "Concrete base 80*80*100cm supply & installation ",
+        UOM: "Each",
+        Qty: 2,
+        Price: 4500,
+        Total: 9000,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "Civil22",
+        Description:
+          "Number supply and installation of precast concrete size manhole (70 × 70 × 80) cm with pipes and sleeves cover of cast iron (CAST IRO) thickness of 7 cm with includes settlement of the lock and finishing, compaction and pour concrete around 40 cm thickness of 40 cm (with paint bitumen). required H.H design.",
+        UOM: "Each",
+        Qty: 3,
+        Price: 3360,
+        Total: 10080,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "Civil33",
+        Description:
+          "Cubic meters supply and poured concrete (300 kg \/ m3) with\npaint bitumen carpentry, ",
+        UOM: "M3",
+        Qty: 9.024000000000001,
+        Price: 336,
+        Total: 3032.0640000000003,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "Civil101",
+        Description:
+          "Supplying and installing poles with 5 meters of 120 hot micron, resistant to a thickness of not less than 6 mm and diameter not less than 144.3 mm Resistant resistance up to (180-200) km \/ h without top cover and with side door with lock for SAFRAN And concrete around wall bases Columns thickness of at least 35 cm taking into account the position of the upper part of the base to return the situation as it was.",
+        UOM: "Each",
+        Qty: 2,
+        Price: 3600,
+        Total: 7200,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E\/M15",
+        Description:
+          "Supplying UTP cable CAT 6A isolated, flexible (Saudi industrial standard, certified by SASO)",
+        UOM: "Meter",
+        Qty: 3162,
+        Price: 5,
+        Total: 15810,
+      },
+      {
+        CUL: "E\/M16",
+        Description:
+          "Pulling & Connecting UTP cable CAT 6 isolated, flexible (Saudi industrial standard, certified by SASO)",
+        UOM: "Meter",
+        Qty: 3162,
+        Price: 6,
+        Total: 18972,
+        DaysforCompletion: 12,
+      },
+      {
+        CUL: "E\/M21",
+        Description:
+          "Supplying RJ45, high quality Saudi industrial or Italian industrial",
+        UOM: "Each",
+        Qty: 106,
+        Price: 17,
+        Total: 1802,
+      },
+      {
+        CUL: "E\/M22",
+        Description: "Connecting RJ45 & testing for the connection Quality",
+        UOM: "Each",
+        Qty: 106,
+        Price: 33,
+        Total: 3498,
+        DaysforCompletion: 3,
+      },
+      {
+        CUL: "E\/M43",
+        Description:
+          "Supplying plastic box insulated &waterproof, size of (10*10*7) cm, Plastic grey colour with Cover (IP 65)",
+        UOM: "Each",
+        Qty: 65,
+        Price: 115,
+        Total: 7475,
+      },
+      {
+        CUL: "E/M44",
+        Description:
+          "Installing insulated &waterproof, size of (12.5*12.5*5.5) cm, Plastic grey color with Cover  (junction Box)",
+        UOM: "Each",
+        Qty: 65,
+        Price: 195,
+        Total: 12675,
+        DaysforCompletion: 5,
+      },
+      {
+        CUL: "E/M53",
+        Description:
+          "Supplying Plastic flexible pipes size3/4-inch, high quality Saudi industrial or Italian industrial",
+        UOM: "Meter",
+        Qty: 291,
+        Price: 10,
+        Total: 2910,
+      },
+      {
+        CUL: "E/M54",
+        Description:
+          "Installing Plastic flexible pipes size3/4-inch, high quality Saudi industrial or Italian industrial",
+        UOM: "Meter",
+        Qty: 291,
+        Price: 6,
+        Total: 1746,
+        DaysforCompletion: 2,
+      },
+      {
+        CUL: "E/M79",
+        Description: "Supplying labels clear font, suitable size, waterproof",
+        UOM: "Each",
+        Qty: 130,
+        Price: 33,
+        Total: 4290,
+      },
+      {
+        CUL: "E/M80",
+        Description: "Installing labels, clear font, suitable size, waterproof",
+        UOM: "Each",
+        Qty: 130,
+        Price: 115,
+        Total: 14950,
+        DaysforCompletion: 4,
+      },
+      {
+        CUL: "E/M81",
+        Description: "Installing Camera (all types-New Cameras)",
+        UOM: "Each",
+        Qty: 65,
+        Price: 1098,
+        Total: 71370,
+        DaysforCompletion: 7,
+      },
+      {
+        CUL: "E/M84",
+        Description:
+          "Supplying bracket for camera iron galvanized or thermal paint",
+        UOM: "Each",
+        Qty: 24,
+        Price: 465,
+        Total: 11160,
+      },
+      {
+        CUL: "E/M88",
+        Description:
+          "Installing bracket for camera iron galvanized or thermal paint",
+        UOM: "Each",
+        Qty: 24,
+        Price: 552,
+        Total: 13248,
+        DaysforCompletion: 3,
+      },
+      {
+        CUL: "E/M135",
+        Description: "Configuring Camera",
+        UOM: "Each",
+        Qty: 65,
+        Price: 1197,
+        Total: 77805,
+        DaysforCompletion: 10,
+      },
+      {
+        CUL: "Civil169",
+        Description: "Mobilization & Preparation",
+        UOM: "Each",
+        Qty: 1,
+        Price: 5000,
+        Total: 5000,
+        DaysforCompletion: 2,
+      },
+      {
+        CUL: "E/M130",
+        Description: "Cables As built drawing",
+        UOM: "Each",
+        Qty: 3,
+        Price: 5747,
+        Total: 17241,
+        DaysforCompletion: 3,
+      },
+      {
+        CUL: "TBD1",
+        Description: "Supply and Installation of UTP Patch cords",
+        UOM: "Each",
+        Qty: 39,
+        Price: 55,
+        Total: 2145,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "TBD2",
+        Description: "Supply and Installation of CAT6 Module",
+        UOM: "Each",
+        Qty: 12,
+        Price: 61,
+        Total: 732,
+        DaysforCompletion: 1,
+      },
+    ];
+
+    let BOQ = [
+      {
+        CUL: "Civil43",
+        Description:
+          "Site Layout Survey that carried out to supplement and verify site information to ensure suitability of sites according to the installation guidelines provided by TAHAKOM.",
+        UOM: "EA",
+        Qty: 1,
+        Price: 1120,
+        Total: 1120,
+      },
+      {
+        CUL: "Civil44",
+        Description:
+          "site design and drawings such as (not limited to) civil,nsystem, electrical, etc.) ",
+        UOM: "EA",
+        Qty: 1,
+        Price: 2800,
+        Total: 2800,
+      },
+      {
+        CUL: "Civil65",
+        Description:
+          "Survey, supply of engineering diagram, submission to and obtain permit from Baladiyah",
+        UOM: "EA",
+        Qty: 1,
+        Price: 2000,
+        Total: 2000,
+      },
+      {
+        CUL: "Civil120",
+        Description: "Concrete base 80*80*80cm supply & installation",
+        UOM: "Unit(s)",
+        Qty: 2.548,
+        Price: 3900,
+        Total: 9937.2,
+      },
+      {
+        CUL: "Civil126",
+        Description:
+          "Supply and Install Protection post (Type- A). Thickness 6 mm, Height 1.5 m, 8 x 8 cm Tube Cross Support",
+        UOM: "Unit(s)",
+        Qty: 2,
+        Price: 2030,
+        Total: 4060,
+      },
+      {
+        CUL: "Civil26",
+        Description:
+          "Supply & installation of warning sign with pole, the size & specification according to MoT, MoI, MoMRA.",
+        UOM: "Unit(s)",
+        Qty: 2,
+        Price: 630,
+        Total: 1260,
+      },
+      {
+        CUL: "Civil27",
+        Description:
+          "(Supplying and installing (poles), galvanized 120 microns on the hot resistant to a thickness of not less than 6 mm& above according our drawing design , Wind resistant resistance up to (180-200) km / h with top cover and with side door with lock And concrete around wall foundation thickness of at least 60 cm taking into account the position of the upper part of the base to return the situation as it was) Required :( Provide poles guarantee certificate) & (Certificate of galvanizing- the pole design should be approved from the certified consultant office as the MoT & MoMRA specification.)",
+        UOM: "Unit(s)",
+        Qty: 7,
+        Price: 1215,
+        Total: 8505,
+      },
+      {
+        CUL: "Civil37",
+        Description:
+          "Work thermal epoxy paint (thermoplastic), accordingnrequired from MoT, MoI, MoMRA) ",
+        UOM: "LM",
+        Qty: 40,
+        Price: 71,
+        Total: 2840,
+      },
+      {
+        CUL: "Civil38",
+        Description:
+          "Supply and installation of ceramic (cat eyes, yellow or white)nfor the one line according required from MOT, TPD&nMoMRA specification).nRequired (Sample)",
+        UOM: "UNIT",
+        Qty: 60,
+        Price: 13,
+        Total: 780,
+      },
+      {
+        CUL: "E/M81",
+        Description: "Installing Camera",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 1098,
+        Total: 1098,
+      },
+      {
+        CUL: "E/M83",
+        Description: "Installing NVR",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 1370,
+        Total: 1370,
+      },
+      {
+        CUL: "E/M135",
+        Description: "Configuring Camera",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 1197,
+        Total: 1197,
+      },
+      {
+        CUL: "E/M137",
+        Description: "Configuring NVR",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 1276,
+        Total: 1276,
+      },
+      {
+        CUL: "E/M1",
+        Description:
+          "Supplying power cable 3X4 MM2 black colour, isolated, flexible (Saudi industrial standard, certified by SASO)",
+        UOM: "LM",
+        Qty: 11,
+        Price: 9,
+        Total: 99,
+      },
+      {
+        CUL: "E/M10",
+        Description:
+          "Supplying earthling cable 1 X 10 mm2 black colour, isolated, flexible (Saudi industrial standard, certified by SASO)",
+        UOM: "Unit(s)",
+        Qty: 2.5,
+        Price: 6,
+        Total: 15,
+      },
+      {
+        CUL: "E/M102",
+        Description:
+          "Installing complete solar solution system as per the requirements in this SoW to cover system power for 24 Hours. â€“ 200 Wattsâ€“ OFF-GRID",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 3514,
+        Total: 3514,
+      },
+      {
+        CUL: "E/M131",
+        Description:
+          "Supplying & installation earthling as well as testing the connection Quality (resister must be less than (3Î©))",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 1923,
+        Total: 1923,
+      },
+      {
+        CUL: "E\/M15",
+        Description:
+          "Supplying UTP cable CAT 6 isolated, flexible (Saudi industrial standard, certified by SASO)",
+        UOM: "LM",
+        Qty: 8,
+        Price: 5,
+        Total: 40,
+      },
+      {
+        CUL: "E\/M16",
+        Description:
+          "Pulling & Connecting UTP cable CAT 6 isolated, flexible (Saudi industrial standard, certified by SASO)",
+        UOM: "LM",
+        Qty: 8,
+        Price: 6,
+        Total: 48,
+      },
+      {
+        CUL: "E\/M166",
+        Description:
+          "Install & Connecting copper busbar 30 cm length, 3 mm thickness.",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 182,
+        Total: 182,
+      },
+      {
+        CUL: "E\/M178",
+        Description: "Supply copper busbar 30 cm length, 3 mm thickness.",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 164,
+        Total: 164,
+      },
+      {
+        CUL: "E\/M19",
+        Description:
+          "Supplying cable lugs, high quality Saudi industrial or Italian industrial",
+        UOM: "Unit(s)",
+        Qty: 6,
+        Price: 8,
+        Total: 48,
+      },
+      {
+        CUL: "E\/M2",
+        Description:
+          "Pulling & Connecting power cable 3X4 MM2 black colour, isolated, flexible (Saudi industrial standard, certified by SASO)",
+        UOM: "Unit(s)",
+        Qty: 11,
+        Price: 4,
+        Total: 44,
+      },
+      {
+        CUL: "E\/M20",
+        Description:
+          "Installing cable lugs, high quality Saudi industrial or Italian industrial",
+        UOM: "Unit(s)",
+        Qty: 6,
+        Price: 10,
+        Total: 60,
+      },
+      {
+        CUL: "E\/M21",
+        Description:
+          "Supplying RJ45, high quality Saudi industrial or Italian industrial",
+        UOM: "Unit(s)",
+        Qty: 2,
+        Price: 17,
+        Total: 34,
+      },
+      {
+        CUL: "E\/M22",
+        Description: "Connecting RJ45 & testing for the connection Quality",
+        UOM: "Unit(s)",
+        Qty: 2,
+        Price: 33,
+        Total: 66,
+      },
+      {
+        CUL: "E\/M23",
+        Description:
+          "Supplying Electricity box size 800X600X200mm wall mount enclosure iron box with mounting plate -Insulated IP65- Waterproof with Iron lock & keys, Grey colour High quality, Saudi industrial",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 982,
+        Total: 982,
+      },
+      {
+        CUL: "E\/M24",
+        Description:
+          "Installing electricity box size 800X600X200mm wall mount enclosure iron box with mounting plate -Insulated IP65- Waterproof with Iron lock & keys, Grey colour High quality, Saudi industrial",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 803,
+        Total: 803,
+      },
+      {
+        CUL: "E\/M27",
+        Description: "Supplying Circuit Breaker 10A, 1 phase European standard",
+        UOM: "Unit(s)",
+        Qty: 10,
+        Price: 35,
+        Total: 350,
+      },
+      {
+        CUL: "E\/M28",
+        Description:
+          "Installing Circuit Breaker 10A, 1 phase European standard",
+        UOM: "Unit(s)",
+        Qty: 10,
+        Price: 38,
+        Total: 380,
+      },
+      {
+        CUL: "E\/M31",
+        Description: "Supplying Circuit Breaker 25A, 2 phase European standard",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 83,
+        Total: 83,
+      },
+      {
+        CUL: "E\/M32",
+        Description: "Installing Circuit Breaker 25A 2 phase European standard",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 79,
+        Total: 79,
+      },
+      {
+        CUL: "E\/M41",
+        Description:
+          "Supplying Breaker box enough for 12 Breakers insulated& waterproof, Plastic grey colour with Cover (IP 65, size 24cm X 18cm X 11cm)",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 884,
+        Total: 884,
+      },
+      {
+        CUL: "E\/M42",
+        Description:
+          "Installing Breaker box enough for 12 Breakers insulated& waterproof, Plastic grey colour with Cover (IP 65, size 24cm X 18cm X 11cm)",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 382,
+        Total: 382,
+      },
+      {
+        CUL: "E\/M57",
+        Description:
+          "Supplying galvanized flexible pipe with rubber size (3\/4), high quality Saudi industrial or Italian industrial",
+        UOM: "Unit(s)",
+        Qty: 2.4,
+        Price: 11,
+        Total: 26.4,
+      },
+      {
+        CUL: "E\/M58",
+        Description:
+          "Installing galvanized flexible pipe with rubber size (3\/4), high quality Saudi industrial or Italian industrial",
+        UOM: "Unit(s)",
+        Qty: 2.4,
+        Price: 5,
+        Total: 12,
+      },
+      {
+        CUL: "E\/M61",
+        Description:
+          "Supplying galvanized flexible pip with rubber size 2-inch, high quality Saudi industrial or Italian industrial",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 22,
+        Total: 22,
+      },
+      {
+        CUL: "E\/M62",
+        Description:
+          "Installing galvanized flexible pip with rubber size 2-inch, high quality Saudi industrial or Italian industrial",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 13,
+        Total: 13,
+      },
+      {
+        CUL: "E\/M63",
+        Description:
+          "Supplying iron Cable gland size (3\/4) high quality Saudi industrial galvanized iron with nut",
+        UOM: "Unit(s)",
+        Qty: 4,
+        Price: 33,
+        Total: 132,
+      },
+      {
+        CUL: "E\/M64",
+        Description:
+          "Installing iron Cable gland size (3\/4) high quality Saudi industrial galvanized iron with nut",
+        UOM: "Unit(s)",
+        Qty: 4,
+        Price: 15,
+        Total: 60,
+      },
+      {
+        CUL: "E\/M65",
+        Description:
+          "Supplying iron Cable gland size 2-inch, high quality Saudi industrial galvanized iron with nut",
+        UOM: "Unit(s)",
+        Qty: 2,
+        Price: 51,
+        Total: 102,
+      },
+      {
+        CUL: "E\/M66",
+        Description:
+          "Installing iron Cable gland size 2-inch, high quality Saudi industrial galvanized iron with nut",
+        UOM: "Unit(s)",
+        Qty: 2,
+        Price: 25,
+        Total: 50,
+      },
+      {
+        CUL: "E\/M67",
+        Description:
+          "Supplying three-prong electrical outlet plug with switch, European standard size 7X7",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 25,
+        Total: 25,
+      },
+      {
+        CUL: "E\/M68",
+        Description:
+          "Installing three-prong electrical outlet plug with switch, European standard size 7X7",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 17,
+        Total: 17,
+      },
+      {
+        CUL: "E\/M71",
+        Description:
+          "Supplying fan with filter, Plastic grey colour, power 230V AC 50\/60 Hz, 100m3\/h, iP54, size11X11cm",
+        UOM: "Unit(s)",
+        Qty: 2,
+        Price: 827,
+        Total: 1654,
+      },
+      {
+        CUL: "E\/M72",
+        Description:
+          "Installing fan with filter, Plastic grey colour, power 230V AC 50\/60 Hz, 100m3\/h, iP54, size11X11cm",
+        UOM: "Unit(s)",
+        Qty: 2,
+        Price: 283,
+        Total: 566,
+      },
+      {
+        CUL: "E\/M77",
+        Description: "Supplying NVR holder high quality galvanized",
+        UOM: "Unit(s)",
+        Qty: 2,
+        Price: 379,
+        Total: 758,
+      },
+      {
+        CUL: "E\/M78",
+        Description: "Installing NVR holder high quality galvanized",
+        UOM: "Unit(s)",
+        Qty: 2,
+        Price: 427,
+        Total: 854,
+      },
+      {
+        CUL: "E\/M79",
+        Description: "Supplying labels clear font, suitable size, waterproof",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 33,
+        Total: 33,
+      },
+      {
+        CUL: "E\/M80",
+        Description: "Installing labels, clear font, suitable size, waterproof",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 115,
+        Total: 115,
+      },
+      {
+        CUL: "E\/M86",
+        Description:
+          "Supplying bracket for iron box size 800X600X200mm, iron galvanized or thermal paint",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 392,
+        Total: 392,
+      },
+      {
+        CUL: "E\/M88",
+        Description:
+          "Installing bracket for camera iron galvanized or thermal paint",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 552,
+        Total: 552,
+      },
+      {
+        CUL: "E\/M9",
+        Description:
+          "Pulling & Connecting earthling cable 1X10 MM2 black colour, isolated, flexible (Saudi industrial standard, certified by SASO)",
+        UOM: "Unit(s)",
+        Qty: 2.5,
+        Price: 5,
+        Total: 12.5,
+      },
+      {
+        CUL: "E\/M90",
+        Description:
+          "Installing bracket for iron box size 800X600X200mm, iron galvanized or thermal paint",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 378,
+        Total: 378,
+      },
+      {
+        CUL: "E\/M93",
+        Description:
+          "Supplying complete solar solution system as per the requirements in this SoW to cover system power for 24 Hours. â€“ 200 Wattsâ€“ OFF-GRID",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 13863,
+        Total: 13863,
+      },
+    ];
+
+    let REDLIGHT = [
+      {
+        CUL: "Civil43",
+        Description:
+          "Site Layout Survey that carried out to supplement and verify site information to ensure suitability of sites according to the installation guidelines provided by TAHAKOM.",
+        UOM: "EA",
+        Qty: 1,
+        Price: 1120,
+        Total: 1120,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "Civil44",
+        Description:
+          "site design and drawings such as (not limited to) civil,nsystem, electrical, etc.) ",
+        UOM: "EA",
+        Qty: 1,
+        Price: 2800,
+        Total: 2800,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "Civil65",
+        Description:
+          "Survey, supply of engineering diagram, submission to and obtain permit from Baladiyah",
+        UOM: "EA",
+        Qty: 1,
+        Price: 2000,
+        Total: 2000,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "Civil10",
+        Description:
+          "Supply ropes extending inside the pipe between manholes or foundation thickness 6 mm (rope for each pipe).",
+        UOM: "LM",
+        Qty: 676.6,
+        Price: 2,
+        Total: 1353.2,
+        DaysforCompletion: 2,
+      },
+      {
+        CUL: "Civil101",
+        Description:
+          "Supplying and installing poles with 5 meters of 120 hot micron, resistant to a thickness of not less than 6 mm and diameter not less than 144.3 mm Resistant resistance up to (180-200) km / h without top cover and with side door with lock for SAFRAN And concrete around wall bases Columns thickness of at least 35 cm taking into account the position of the upper part of the base to return the situation as it was.",
+        UOM: "EA",
+        Qty: 4,
+        Price: 3600,
+        Total: 14400,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "Civil108",
+        Description:
+          "Supply and installation of stop sign (50 * 70) cm and a pole length of 1.6 meters and diameter of 2 inches according to the specifications of the Ministry of Communications.",
+        UOM: "Unit(s)",
+        Qty: 8,
+        Price: 1350,
+        Total: 10800,
+        DaysforCompletion: 2,
+      },
+      {
+        CUL: "Civil109",
+        Description:
+          "Supply and installation of speed signs with a diameter of 90 cm and a pole length of 3 meters and diameter of 3 inches according to the specifications of the Ministry of Communications.",
+        UOM: "Unit(s)",
+        Qty: 4,
+        Price: 1750,
+        Total: 7000,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "Civil11",
+        Description:
+          "Supply and installation of concrete sidewalk tiles is caused by the acts of a includes drill all the work.",
+        UOM: "sq.m",
+        Qty: 27.16,
+        Price: 77,
+        Total: 2091.32,
+        DaysforCompletion: 3,
+      },
+      {
+        CUL: "Civil12",
+        Description:
+          "Supply and installation of curbstone pavements is caused by excavation work includes all work and materials.",
+        UOM: "L.M",
+        Qty: 21.8,
+        Price: 77,
+        Total: 1678.6,
+        DaysforCompletion: 3,
+      },
+      {
+        CUL: "Civil120",
+        Description: "Concrete base 80*80*80cm supply & installation",
+        UOM: "Unit(s)",
+        Qty: 4,
+        Price: 3900,
+        Total: 15600,
+        DaysforCompletion: 2,
+      },
+      {
+        CUL: "Civil121",
+        Description: "Concrete base 80*80*100cm supply & installation",
+        UOM: "Unit(s)",
+        Qty: 4,
+        Price: 4500,
+        Total: 18000,
+        DaysforCompletion: 2,
+      },
+      {
+        CUL: "Civil122",
+        Description: "Transformer base 60*60*80cm supply & installation",
+        UOM: "Unit(s)",
+        Qty: 0.54,
+        Price: 3800,
+        Total: 2052,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "Civil126",
+        Description:
+          "Supply and Install Protection post (Type- A). Thickness 6 mm, Height 1.5 m, 8 x 8 cm Tube Cross Support",
+        UOM: "Unit(s)",
+        Qty: 18,
+        Price: 2030,
+        Total: 36540,
+        DaysforCompletion: 3,
+      },
+      {
+        CUL: "Civil14",
+        Description:
+          "Number supply and install precast concrete foundation for cabinets communications Size (60 cm Ă— 70 cm Ă— 80 cm includes drill, settlement and compaction and pour concrete around a thickness of 40 cm and 40 cm (paint bitumen) required communication cabinet design.",
+        UOM: "Unit(s)",
+        Qty: 1.09,
+        Price: 1911,
+        Total: 2082.9900000000002,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "Civil2",
+        Description:
+          "Longitudinal meter excavation work (Micro trench) is pavement width 30-40sm and depth of 60-80 cm and include item cut and remove the tiles, drilling, supply and installation of UPVC class 4, 2 pipes diameter of 75 mm and thickness of 3.6 mm and supplying concrete pour 300 SRC thickness of 25 cm at least above the pipes. supply of aggregates and sand and water. The compaction and supply warning tape, supply and installation of the tiles and remove debris.",
+        UOM: "Unit(s)",
+        Qty: 148.6,
+        Price: 240,
+        Total: 35664,
+        DaysforCompletion: 5,
+      },
+      {
+        CUL: "Civil22",
+        Description:
+          "Number supply and installation of precast concrete size manhole (70 Ă— 70 Ă— 80) cm with pipes and sleeves cover of cast iron (CAST IRO) thickness of 7 cm with includes settlement of the lock and finishing, compaction and pour concrete around 40 cm thickness of 40 cm (with paint bitumen). required H.H design.",
+        UOM: "Unit(s)",
+        Qty: 18,
+        Price: 3360,
+        Total: 60480,
+        DaysforCompletion: 5,
+      },
+      {
+        CUL: "Civil3",
+        Description:
+          "Longitudinal meter excavation work width (40-60 cm) and depth (60-80 cm) sand and include item drilling and supply, extend and connect pipes UPVC class 4 number 2 diameter 75 mm and thickness of 3.6 mm and supply (GEOTIXTLE100) and poured concrete SRC250 thickness of 25 cm at least And supplying warning tape and rubble, sand, water and waste compaction and remove debris.",
+        UOM: "Unit(s)",
+        Qty: 26.3,
+        Price: 228,
+        Total: 5996.4,
+        DaysforCompletion: 3,
+      },
+      {
+        CUL: "Civil31",
+        Description:
+          "Longitudinal meter supply and installation of UPVC class 4 plastic pipes (75 mm) thickness of 3.6 mm.",
+        UOM: "Unit(s)",
+        Qty: 316,
+        Price: 21,
+        Total: 6636,
+        DaysforCompletion: 5,
+      },
+      {
+        CUL: "Civil33",
+        Description:
+          "Cubic meters supply and poured concrete (300 kg / m3) with paint bitumen carpentry,",
+        UOM: "Unit(s)",
+        Qty: 5.787,
+        Price: 336,
+        Total: 1944.432,
+        DaysforCompletion: 3,
+      },
+      {
+        CUL: "Civil37",
+        Description:
+          "Work thermal epoxy paint (thermoplastic), according required from MoT, MoI, MoMRA)",
+        UOM: "Unit(s)",
+        Qty: 418.5,
+        Price: 71,
+        Total: 29713.5,
+        DaysforCompletion: 3,
+      },
+      {
+        CUL: "Civil38",
+        Description:
+          "Supply and installation of ceramic (cat eyes, yellow or white) for the one line according required from MOT, TPD& MoMRA specification). Required (Sample)",
+        UOM: "Unit(s)",
+        Qty: 598,
+        Price: 13,
+        Total: 7774,
+        DaysforCompletion: 3,
+      },
+      {
+        CUL: "Civil63",
+        Description:
+          "SPECIAL TRENCH, 450 â€“ 600mm DEPTH, STANDARD WIDTH 150 â€“ 200mm",
+        UOM: "Unit(s)",
+        Qty: 64.3,
+        Price: 75,
+        Total: 4822.5,
+        DaysforCompletion: 5,
+      },
+      {
+        CUL: "Civil8",
+        Description:
+          "Milling and pavement work 5-7cm thickness with supply and individual asphalt MC1-RC2 display (100cm-Above) and the restoration of the situation as it was.",
+        UOM: "Unit(s)",
+        Qty: 64.3,
+        Price: 48,
+        Total: 3086.3999999999996,
+        DaysforCompletion: 2,
+      },
+      {
+        CUL: "E/M57",
+        Description:
+          "Supplying galvanized flexible pipe with rubber size (3/4), high quality Saudi industrial or Italian industrial",
+        UOM: "Unit(s)",
+        Qty: 20,
+        Price: 11,
+        Total: 220,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M140",
+        Description: "Supply & Installation Transformer 15KVA with foundation",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 6299,
+        Total: 6299,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M58",
+        Description:
+          "Installing galvanized flexible pipe with rubber size (3/4), high quality Saudi industrial or Italian industrial",
+        UOM: "Unit(s)",
+        Qty: 20,
+        Price: 5,
+        Total: 100,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M20",
+        Description:
+          "Installing cable lugs, high quality Saudi industrial or Italian industrial",
+        UOM: "Unit(s)",
+        Qty: 14,
+        Price: 10,
+        Total: 140,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M11",
+        Description:
+          "Supplying earthling cable 1X16 MM2 black colour, isolated, flexible (Saudi industrial standard, certified by SASO)",
+        UOM: "Unit(s)",
+        Qty: 120,
+        Price: 11,
+        Total: 1320,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M4",
+        Description:
+          "Pulling & Connecting power cable 3X6 MM2 black colour, isolated, flexible (Saudi industrial standard, certified by SASO)",
+        UOM: "Unit(s)",
+        Qty: 193,
+        Price: 5,
+        Total: 965,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M16",
+        Description:
+          "Pulling & Connecting UTP cable CAT 6 isolated, flexible (Saudi industrial standard, certified by SASO)",
+        UOM: "LM",
+        Qty: 589,
+        Price: 6,
+        Total: 3534,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M80",
+        Description: "Installing labels, clear font, suitable size, waterproof",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 115,
+        Total: 115,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M3",
+        Description:
+          "Supplying power cable 3X6 MM2 black colour, isolated, flexible (Saudi industrial standard, certified by SASO)",
+        UOM: "Unit(s)",
+        Qty: 193,
+        Price: 12,
+        Total: 2316,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M172",
+        Description:
+          "Pulling & Connecting of outdoor power cableÂ4 x 1.5Â mmÂ².",
+        UOM: "Unit(s)",
+        Qty: 213,
+        Price: 11,
+        Total: 2343,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M19",
+        Description:
+          "Supplying cable lugs, high quality Saudi industrial or Italian industrial",
+        UOM: "Unit(s)",
+        Qty: 14,
+        Price: 8,
+        Total: 112,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M6",
+        Description:
+          "Pulling & Connecting power cable 4X10 MM2 black colour, isolated, flexible (Saudi industrial standard, certified by SASO)",
+        UOM: "Unit(s)",
+        Qty: 10,
+        Price: 6,
+        Total: 60,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M181",
+        Description: "Supply of outdoor power cable 4 x 1.5Â  mmÂ².",
+        UOM: "Unit(s)",
+        Qty: 213,
+        Price: 6,
+        Total: 1278,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M166",
+        Description:
+          "Install & Connecting copper busbar 30 cm length, 3 mm thickness.",
+        UOM: "Unit(s)",
+        Qty: 4,
+        Price: 182,
+        Total: 728,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M79",
+        Description: "Supplying labels clear font, suitable size, waterproof",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 33,
+        Total: 33,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M142",
+        Description:
+          "Install & Connecting electrical panel box insulated & waterproof 3 phase, 12 branches (main breaker 60 Amp) (branches breaker 20 Amp ).",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 894,
+        Total: 894,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M131",
+        Description:
+          "Supplying & installation earthling as well as testing the connection Quality (resister must be less than (3Î©))",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 1923,
+        Total: 1923,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M5",
+        Description:
+          "Supplying power cable 4X10 MM2 black colour, isolated, flexible (Saudi industrial standard, certified by SASO)",
+        UOM: "Unit(s)",
+        Qty: 10,
+        Price: 18,
+        Total: 180,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M141",
+        Description:
+          "Supply electrical panel box insulated & waterproof 3 phase, 12 branches (main breaker 60 Amp) (branches breaker 20 Amp)",
+        UOM: "Unit(s)",
+        Qty: 1,
+        Price: 2040,
+        Total: 2040,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M15",
+        Description:
+          "Supplying UTP cable CAT 6 isolated, flexible (Saudi industrial standard, certified by SASO)",
+        UOM: "LM",
+        Qty: 589,
+        Price: 5,
+        Total: 2945,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M12",
+        Description:
+          "Pulling & Connecting earthling cable 1X16 MM2 black colour, isolated, flexible (Saudi industrial standard, certified by SASO)",
+        UOM: "Unit(s)",
+        Qty: 120,
+        Price: 10,
+        Total: 1200,
+        DaysforCompletion: 1,
+      },
+      {
+        CUL: "E/M178",
+        Description: "Supply copper busbar 30 cm length, 3 mm thickness.",
+        UOM: "Unit(s)",
+        Qty: 4,
+        Price: 164,
+        Total: 656,
+        DaysforCompletion: 1,
+      },
+    ];
+    //-------------------------------------------
+    let table = document.querySelector("table");
+    let btn = document.querySelector(".button");
+
+    //Toaster error
+    function toasterToggle() {
+      let toaster = document.querySelector("#toast");
+      toaster.classList.toggle("hidden");
+    }
+
+    btn.addEventListener("click", function () {
+      let text = document.querySelector(".textbox");
+      let thead = table.getElementsByTagName("thead")[0];
+      let tbody = table.getElementsByTagName("tbody")[0];
+      let loader = document.querySelector(".progressBox");
+
+      loader.style.display = "block";
+
+      //Add validation on textarea
+      if (!text.value) {
+        toasterToggle();
+        loader.style.display = "none";
+        return;
+      }
+      setTimeout(() => {
+        loader.style.display = "none";
+
+        if (text.value.includes("cctv")) {
+          console.log("exist");
+
+          // Clear existing headers
+          thead.innerHTML = "";
+          tbody.innerHTML = "";
+
+          Object.keys(CCTV[0]).forEach((key) => {
+            let th = document.createElement("th");
+            th.innerHTML = key;
+            thead.appendChild(th);
+          });
+
+          CCTV.forEach((item) => {
+            const newRow = tbody.insertRow();
+            Object.values(item).forEach((value) => {
+              let cell = newRow.insertCell();
+              cell.innerHTML = value;
+            });
+
+          
+          });
+        } else if (text.value.includes("redlight")) {
+          console.log("exist");
+
+          // Clear existing headers
+          thead.innerHTML = "";
+          tbody.innerHTML = "";
+          Object.keys(REDLIGHT[0]).forEach((key) => {
+            let th = document.createElement("th");
+            th.innerHTML = key;
+            thead.appendChild(th);
+          });
+
+          REDLIGHT.forEach((item) => {
+            const newRow = tbody.insertRow();
+            Object.values(item).forEach((value) => {
+              let cell = newRow.insertCell();
+              cell.innerHTML = value;
+            });
+          });
+          
+        } else {
+          tbody.innerHTML = "Out of the scoop";
+          tbody.style.fontSize = "15px";
+
+          console.log("not exist");
+        }
+        text.value = " ";
+      }, 1000);
+    });
+  </script>
+</html>
