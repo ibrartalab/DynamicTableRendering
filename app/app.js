@@ -1,12 +1,20 @@
+// Dynamic Table Rendering App logic
+// This app dynamically renders a table based on user input and predefined data sets.
+import {CCTV} from './data/CCTV.js';
+import {REDLIGHT} from './data/REDLIGHT.js';
+import {BOQ} from './data/BOQ.js';
+
 let table = document.querySelector("table");
     let btn = document.querySelector(".button");
 
-    //Toaster error
+    //Toaster function to show error messages
+    //This function toggles the visibility of a toaster message
     function toasterToggle() {
       let toaster = document.querySelector("#toast");
       toaster.classList.toggle("hidden");
     }
 
+    
     btn.addEventListener("click", function () {
       let text = document.querySelector(".textbox");
       let thead = table.getElementsByTagName("thead")[0];
