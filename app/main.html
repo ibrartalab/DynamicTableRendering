@@ -2,10 +2,7 @@
 <html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="./main.css"  
-    />
+    <link rel="stylesheet" href="./main.css" />
   </head>
   <body>
     <!-- Loader Spinner -->
@@ -18,8 +15,11 @@
       <h1 class="project-title">Render Dynamic Table/Grid</h1>
       <span class="note-keyword">NOTE:</span>
       <p class="note-desc">
-        Based these keywords you can render the data dynamicly into the table.
-        Keep this in mind your input does not exist these keywords you will get nothing, also we are not fetching any live data . We just render the different data from the different data files into the grid/table.
+        Based on these keywords you can render the data dynamically into the
+        table. Keep this in mind if your input does not contain these keywords
+        you will get nothing, also we are not fetching any live data. We just
+        render the different data from the different files into the grid/table
+        on the above condition.
       </p>
       <div class="textbox-container">
         <textarea
@@ -30,14 +30,16 @@
         <button class="button">Submit</button>
       </div>
       <!--Your data will be render dynamicaly based on the keywords used in the input-->
-      <table class="table" style="display: block; width: 100px">
-        <thead>
-          <!--Rendering......-->
-        </thead>
-        <tbody>
-          <!--Rendering......-->
-        </tbody>
-      </table>
+      <div class="table-wrapper">
+        <table class="table" style="display: block; width: 100px">
+          <thead>
+            <!--Rendering......-->
+          </thead>
+          <tbody>
+            <!--Rendering......-->
+          </tbody>
+        </table>
+      </div>
     </div>
   </body>
   <script src="app.js" type="module"></script>

@@ -19,9 +19,8 @@ function toasterToggle() {
 btn.addEventListener("click", function () {
   let text = document.querySelector(".textbox");
   let loader = document.querySelector(".progressBox");
-
+  
   loader.style.display = "block";
-
   //Add validation on textarea input
   if (!text.value) {
     toasterToggle();
@@ -55,7 +54,6 @@ btn.addEventListener("click", function () {
 function renderTable(data) {
   let thead = table.getElementsByTagName("thead")[0];
   let tbody = table.getElementsByTagName("tbody")[0];
-
   // Clear existing headers and rows
   thead.innerHTML = "";
   tbody.innerHTML = "";
@@ -65,7 +63,6 @@ function renderTable(data) {
     th.innerHTML = key;
     thead.appendChild(th);
   });
-
   // Add rows dynamically based on the data values
   data.forEach((item) => {
     const newRow = tbody.insertRow();
