@@ -28,18 +28,26 @@ btn.addEventListener("click", function () {
     loader.style.display = "none";
     return;
   }
-  // Check if the input is valid and contains the required keywords 
+  // Check if the input is valid
   setTimeout(() => {
     loader.style.display = "none";
-    if (text.value.includes("cctv")) {
-      renderTable(CCTV);
-    } else if (text.value.includes("redlight")) {
-      renderTable(REDLIGHT);
-    } else {
-      tbody.innerHTML = "Out of the scoop";
-      tbody.style.fontSize = "15px";
+    switch(text.value.toLowerCase().trim()) {
+      case "cctv":
+        renderTable(CCTV);
+        break;
+      case "redlight":
+        renderTable(REDLIGHT);
+        break;
+      case "boq":
+        renderTable(BOQ);
+        break;
+      default:
+        let tbody = table.getElementsByTagName("tbody")[0];
+        tbody.innerHTML = "<tr><td colspan='100%' style='text-align:center;'>Out of the scoop</td></tr>";
+        tbody.style.fontSize = "15px";
     }
-    text.value = " ";
+    text.attributes['placeholder'].value = "Enter text here...";
+    text.value = "";
   }, 1000);
 });
 
